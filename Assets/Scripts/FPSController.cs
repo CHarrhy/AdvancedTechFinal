@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class FPSController : MonoBehaviour
 {
@@ -8,17 +9,33 @@ public class FPSController : MonoBehaviour
     public Transform gunTransform;
     public GameObject muzzleFlashPrefab;
     public GameObject bloodSplatterPrefab;
+    public AudioClip shootSound;
+    public AudioClip reloadSound;
 
     private CharacterController characterController;
     private Camera playerCamera;
     private float verticalRotation = 0f;
 
+    // Ammunition and Reloading
+    public int maxAmmo = 30;
+    private int currentAmmo;
+    public float reloadTime = 1.5f;
+    private bool isReloading = false;
+
+    // UI
+    public TextMeshProUGUI ammoText;
+
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
         playerCamera = playerCameraTransform.GetComponent<Camera>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // Initialize ammo
+        currentAmmo = maxAmmo;
+        UpdateAmmoUI();
+
+        characterController = GetComponent<CharacterController>(); // Add this line
     }
 
     void Update()
@@ -44,9 +61,22 @@ public class FPSController : MonoBehaviour
         UpdateGunRotation();
 
         // Shooting
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !isReloading)
         {
-            Shoot();
+            if (currentAmmo > 0)
+            {
+                Shoot();
+            }
+            else
+            {
+                Reload();
+            }
+        }
+
+        // Reloading
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentAmmo < maxAmmo)
+        {
+            Reload();
         }
     }
 
@@ -88,6 +118,39 @@ public class FPSController : MonoBehaviour
                 }
             }
         }
+
+        // Play Shoot Sound
+        GetComponent<AudioSource>().PlayOneShot(shootSound);
+
+        // Decrease ammo count
+        currentAmmo--;
+        UpdateAmmoUI();
     }
 
+    void Reload()
+    {
+        if (currentAmmo < maxAmmo)
+        {
+            // Play Reload Sound
+            GetComponent<AudioSource>().PlayOneShot(reloadSound);
+
+            isReloading = true;
+            Invoke("FinishReloading", reloadTime);
+        }
+    }
+
+    void FinishReloading()
+    {
+        currentAmmo = maxAmmo;
+        isReloading = false;
+        UpdateAmmoUI();
+    }
+
+    void UpdateAmmoUI()
+    {
+        if (ammoText != null)
+        {
+            ammoText.text = currentAmmo + " / " + maxAmmo;
+        }
+    }
 }
