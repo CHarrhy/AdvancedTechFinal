@@ -102,13 +102,13 @@ public class FPSController : MonoBehaviour
             Destroy(muzzleFlash, 0.5f);
 
             // Apply damage to the hit object
-            Health health = hit.transform.GetComponent<Health>();
-            if (health != null)
+            EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
             {
-                health.TakeDamage(10);
+                enemyHealth.TakeDamage(10);
 
                 // Check if the enemy is still alive
-                if (health.IsAlive())
+                if (enemyHealth.IsAlive())
                 {
                     // Instantiate Blood Splatter at the hit point
                     GameObject bloodSplatter = Instantiate(bloodSplatterPrefab, hit.point, Quaternion.LookRotation(hit.normal));

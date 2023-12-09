@@ -1,21 +1,24 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 public class EnemyAI : MonoBehaviour
 {
     public Transform player;
     public float detectionRadius = 10f;
     public float searchDuration = 10f; // How long the enemy searches before giving up
-    public float respawnDelay = 3f; // Time delay before respawning
-    public Transform[] spawnPoints; // Array of spawn points
+    public float respawnDelay = 3f;    // Time delay before respawning
 
     private NavMeshAgent navMeshAgent;
     private bool isSearching = false;
     private float searchTimer = 0f;
 
+    private GameManager gameManager;
+
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        gameManager = FindObjectOfType<GameManager>();
 
         // Start searching immediately
         SearchForPlayer();
@@ -23,7 +26,7 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        // If not searching, move to a random location
+        // If not searching, move to a random search location
         if (!isSearching)
         {
             MoveToRandomLocation();
@@ -41,7 +44,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void SearchForPlayer()
+    internal void SearchForPlayer()
     {
         // Check if the player is within the detection radius
         if (Vector3.Distance(transform.position, player.position) < detectionRadius)
@@ -58,26 +61,25 @@ public class EnemyAI : MonoBehaviour
         // Check if the enemy has reached the destination
         if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < 0.5f)
         {
-            // Pick a random spawn point
-            Transform randomSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-
-            // Move to the random spawn point
-            navMeshAgent.SetDestination(randomSpawnPoint.position);
-
-            // Schedule respawn after a delay
-            Invoke("Respawn", respawnDelay);
+            // Die and respawn after a delay
+            DieAndRespawn();
         }
     }
 
-    void Respawn()
+    void DieAndRespawn()
     {
-        // Reset the position to the initial spawn point
-        // You may want to modify this based on your specific setup
-        Transform initialSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        transform.position = initialSpawnPoint.position;
+        // Handle death logic, e.g., play death animation, disable components, etc.
 
-        // Start searching again
-        SearchForPlayer();
+        // Start the respawn coroutine
+        StartCoroutine(RespawnAfterDelay());
+    }
+
+    IEnumerator RespawnAfterDelay()
+    {
+        // Wait for the specified delay before respawning
+        yield return new WaitForSeconds(respawnDelay);
+
+        // Respawn the enemy using the GameManager
+        gameManager.RespawnEnemy();
     }
 }
-
