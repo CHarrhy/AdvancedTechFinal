@@ -109,17 +109,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3025c1cbcb7d484391294f8d1c9aac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 691868351385262611, guid: 0fb46218176e51e48ac500bdaaa27291, type: 3}
   detectionRadius: 10
   searchDuration: 10
   respawnDelay: 3
-  searchPoints: []
-  respawnPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  enemyPrefab: {fileID: 2519082070897512960}
 --- !u!195 &4838398437022670194
 NavMeshAgent:
   m_ObjectHideFlags: 0

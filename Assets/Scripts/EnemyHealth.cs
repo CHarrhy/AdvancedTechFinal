@@ -22,21 +22,8 @@ public class EnemyHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Die();
-            Debug.Log("Dead");
+            GetComponent<EnemyAI>().Respawn();
+
         }
-    }
-
-    void Die()
-    {
-        // Handle death logic, e.g., play death animation, disable components, etc.
-
-        // Destroy the enemy GameObject
-        Destroy(gameObject);
-    }
-
-    public bool IsAlive()
-    {
-        return currentHealth > 0;
     }
 }
