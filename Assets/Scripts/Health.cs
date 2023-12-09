@@ -1,4 +1,3 @@
-// Health.cs
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -14,6 +13,7 @@ public class Health : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+
         if (currentHealth <= 0)
         {
             Die();
@@ -22,12 +22,8 @@ public class Health : MonoBehaviour
 
     void Die()
     {
-        // Handle death logic (e.g., play death animation, disable gameObject)
-        Destroy(gameObject);
-    }
-
-    public bool IsAlive()
-    {
-        return currentHealth > 0;
+        // Handle death logic here
+        // For now, we can just deactivate the GameObject
+        gameObject.SetActive(false);
     }
 }
