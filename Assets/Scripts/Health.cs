@@ -24,6 +24,6 @@ public class Health : MonoBehaviour
     {
         // Handle death logic here
         // For now, we can just deactivate the GameObject
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }
