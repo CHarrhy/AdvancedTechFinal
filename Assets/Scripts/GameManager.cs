@@ -36,9 +36,13 @@ public class GameManager : MonoBehaviour
         // Instantiate the initial enemies at random respawn points
         for (int i = 0; i < maxEnemies; i++)
         {
-            Transform randomRespawnPoint = respawnPoints[Random.Range(0, respawnPoints.Length)];
-            GameObject newEnemy = Instantiate(enemyPrefab, randomRespawnPoint.position, randomRespawnPoint.rotation);
-            currentEnemyCount++;
+            if (currentEnemyCount < maxEnemies)
+            {
+                Transform randomRespawnPoint = respawnPoints[Random.Range(0, respawnPoints.Length)];
+                GameObject newEnemy = Instantiate(enemyPrefab, randomRespawnPoint.position, randomRespawnPoint.rotation);
+                currentEnemyCount++;
+            }
         }
     }
+
 }
