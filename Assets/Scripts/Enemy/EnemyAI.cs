@@ -12,8 +12,10 @@ public class EnemyAI : MonoBehaviour
     public Transform player;
     public float detectionRadius = 10f;
     public float chaseRadius = 15f;
+    public float attackDistance = 2f; // Adjust this based on your preference
     public float attackCooldown = 2f;
-    public float coverDistance = 5f;
+    public float patrolSpeed = 3f; // Speed during patrolling
+    public float chaseSpeed = 5f; // Speed during chasing
     public Transform[] patrolPoints;
     public EnemyType enemyType;
 
@@ -47,7 +49,7 @@ public class EnemyAI : MonoBehaviour
             }
             else if (enemyType == EnemyType.Ranged)
             {
-                RangedAttack();
+                // Add ranged attack logic here
             }
         }
         else if (isChasing && Vector3.Distance(transform.position, player.position) > chaseRadius)
@@ -74,6 +76,9 @@ public class EnemyAI : MonoBehaviour
             // Set the destination to the current patrol point
             navMeshAgent.SetDestination(patrolPoints[currentPatrolIndex].position);
 
+            // Set patrolling speed
+            navMeshAgent.speed = patrolSpeed;
+
             // Increment patrol index for the next point
             currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
         }
@@ -82,24 +87,36 @@ public class EnemyAI : MonoBehaviour
     void MeleeAttack()
     {
         // Melee attack logic
-        if (Vector3.Distance(transform.position, player.position) < navMeshAgent.stoppingDistance)
+        if (Vector3.Distance(transform.position, player.position) < attackDistance)
         {
             // Check attack cooldown
             if (attackTimer <= 0)
             {
+                // Calculate the direction to the player
+                Vector3 directionToPlayer = (player.position - transform.position).normalized;
+
+                // Set the destination a bit away from the player in the calculated direction
+                navMeshAgent.SetDestination(player.position - directionToPlayer * 1.5f);
+
                 // Perform melee attack (animation, damage, etc.)
+                // You can implement your damage logic here
+
+                // Apply damage to the player
+                Health playerHealth = player.GetComponent<Health>();
+                if (playerHealth != null)
+                {
+                    playerHealth.TakeDamage(10); // Adjust the damage value as needed
+                }
 
                 // Reset attack cooldown
                 attackTimer = attackCooldown;
             }
         }
+        else
+        {
+            // Set chasing speed if not in attack range
+            navMeshAgent.speed = chaseSpeed;
+        }
     }
 
-    void RangedAttack()
-    {
-        // Ranged attack logic
-        // Implement shooting logic here based on your setup
-        // For example, you can use a similar shooting logic as the player
-        // and instantiate bullets or projectiles towards the player
-    }
 }

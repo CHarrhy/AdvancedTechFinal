@@ -25,6 +25,8 @@ public class FPSController : MonoBehaviour
     // UI
     public TextMeshProUGUI ammoText;
 
+    public EnemyAI enemy;
+
     void Start()
     {
         playerCamera = playerCameraTransform.GetComponent<Camera>();
