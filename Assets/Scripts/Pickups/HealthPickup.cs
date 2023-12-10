@@ -3,6 +3,9 @@ using UnityEngine;
 public class HealthPickup : MonoBehaviour
 {
     public int healthToAdd = 50;  // Amount of health to add
+    public float spinSpeed = 5f;
+    public Vector3 spinDirection = new Vector3(0, 0, 1);
+    public int rotationSpeed = 1;
 
     void OnTriggerEnter(Collider other)
     {
@@ -25,5 +28,11 @@ public class HealthPickup : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+    }
+
+    void Update()
+    {
+        // Rotate the parent GameObject around the z-axis
+        transform.Rotate(spinDirection * Time.deltaTime * rotationSpeed);
     }
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5312941818813582414}
   - component: {fileID: 2415229120174155244}
   m_Layer: 0
-  m_Name: HealthPickup
+  m_Name: Health Pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,3 +121,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthToAdd: 50
+  spinSpeed: 5
+  spinDirection: {x: 1, y: 1, z: 1}
+  rotationSpeed: 1
