@@ -23,6 +23,8 @@ public class FPSController : MonoBehaviour
     public float reloadTime = 1.5f;
     private bool isReloading = false;
 
+    private Health health;
+
     // UI
     public TextMeshProUGUI ammoText;
 
@@ -40,6 +42,8 @@ public class FPSController : MonoBehaviour
         UpdateAmmoUI();
 
         characterController = GetComponent<CharacterController>(); // Add this line
+
+        health = GetComponent<Health>();
     }
 
     void Update()
@@ -82,6 +86,8 @@ public class FPSController : MonoBehaviour
         {
             Reload();
         }
+
+        Debug.Log(health);
     }
 
     void UpdateGunRotation()
@@ -172,5 +178,19 @@ public class FPSController : MonoBehaviour
         {
             ammoText.text = currentMagazine + " / " + spareAmmo;
         }
+    }
+
+    public void AddAmmo(int ammoToAdd)
+    {
+        // Add ammoToAdd to spareAmmo
+        spareAmmo += ammoToAdd;
+
+        // Update the UI or perform any other necessary actions
+        UpdateAmmoUI();
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 }

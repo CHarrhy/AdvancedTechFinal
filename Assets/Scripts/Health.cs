@@ -28,4 +28,10 @@ public class Health : MonoBehaviour
         // Invoke the OnDeath event
         OnDeath.Invoke();
     }
+
+    public void AddHealth(int amount)
+    {
+        currentHealth += amount;
+        // You can add additional logic here, such as clamping health to a maximum value
+    }
 }
