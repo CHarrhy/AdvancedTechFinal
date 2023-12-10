@@ -5,6 +5,10 @@ public class FPSController : MonoBehaviour
 {
     public float speed = 5f;
     public float mouseSensitivity = 2f;
+    public float jumpForce = 5f; // New variable for jump force
+    public float crouchHeight = 0.5f; // New variable for crouch height
+    public float sprintSpeedMultiplier = 2f; // New variable for sprint speed multiplier
+
     public Transform playerCameraTransform;
     public Transform gunTransform;
     public GameObject muzzleFlashPrefab;
@@ -28,7 +32,8 @@ public class FPSController : MonoBehaviour
     // UI
     public TextMeshProUGUI ammoText;
 
-    public EnemyAI enemy;
+    private bool isSprinting = false;
+    private bool isCrouching = false;
 
     void Start()
     {
@@ -53,7 +58,20 @@ public class FPSController : MonoBehaviour
         float verticalMovement = Input.GetAxis("Vertical");
 
         Vector3 movement = transform.forward * verticalMovement + transform.right * horizontalMovement;
-        characterController.Move(movement * speed * Time.deltaTime);
+
+        // Apply sprinting and crouching
+        float currentSpeed = speed;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            currentSpeed *= sprintSpeedMultiplier;
+        }
+
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            currentSpeed *= crouchHeight;
+        }
+
+        characterController.Move(movement * currentSpeed * Time.deltaTime);
 
         // Player Rotation
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
@@ -64,6 +82,16 @@ public class FPSController : MonoBehaviour
 
         playerCameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
+
+        // Jumping
+        if (characterController.isGrounded)
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                // Adjust the jumpForce value to control the jump height
+                characterController.Move(Vector3.up * jumpForce);
+            }
+        }
 
         // Update Gun Rotation (but keep fixed position)
         UpdateGunRotation();
@@ -87,8 +115,9 @@ public class FPSController : MonoBehaviour
             Reload();
         }
 
-        Debug.Log(health);
+        Debug.Log(characterController.isGrounded);
     }
+
 
     void UpdateGunRotation()
     {

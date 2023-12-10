@@ -868,29 +868,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealthText: {fileID: 22721445}
   playerHealth: {fileID: 906950039}
---- !u!136 &906950045
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 906950034}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1.8276002
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.90572596, z: 0}
 --- !u!1 &978169477
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,9 +1615,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 203174583435985065, guid: 0fb46218176e51e48ac500bdaaa27291, type: 3}
       insertIndex: -1
       addedObject: {fileID: 906950044}
-    - targetCorrespondingSourceObject: {fileID: 203174583435985065, guid: 0fb46218176e51e48ac500bdaaa27291, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 906950045}
   m_SourcePrefab: {fileID: 100100000, guid: 0fb46218176e51e48ac500bdaaa27291, type: 3}
 --- !u!1001 &8436254154662358944
 PrefabInstance:
