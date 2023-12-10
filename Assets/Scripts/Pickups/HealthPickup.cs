@@ -6,6 +6,7 @@ public class HealthPickup : MonoBehaviour
     public float spinSpeed = 5f;
     public Vector3 spinDirection = new Vector3(0, 0, 1);
     public int rotationSpeed = 1;
+    public AudioClip pickupSound; // Add this variable for the pickup sound
 
     void OnTriggerEnter(Collider other)
     {
@@ -23,6 +24,8 @@ public class HealthPickup : MonoBehaviour
 
                 // Add health to the player
                 healthComponent.AddHealth(amountToAdd);
+
+                AudioSource.PlayClipAtPoint(pickupSound, transform.position); // Play pickup sound
 
                 // Destroy the pickup object after it's been collected
                 Destroy(gameObject);

@@ -124,3 +124,4 @@ MonoBehaviour:
   spinSpeed: 5
   spinDirection: {x: 1, y: 1, z: 1}
   rotationSpeed: 1
+  pickupSound: {fileID: 8300000, guid: 0db8821e950e55d43a595a848850e998, type: 3}

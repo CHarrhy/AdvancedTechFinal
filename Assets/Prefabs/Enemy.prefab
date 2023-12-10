@@ -2596,17 +2596,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  detectionRadius: 10
-  chaseRadius: 15
+  detectionRadius: 5
+  chaseRadius: 10
   attackDistance: 2
   attackCooldown: 2
   patrolSpeed: 3
   chaseSpeed: 4
   patrolPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 0}
   enemyType: 0
   animator: {fileID: 9177895909045523136}

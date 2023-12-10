@@ -324,6 +324,7 @@ MonoBehaviour:
   spinSpeed: 5
   spinDirection: {x: 1, y: 1, z: 1}
   rotationSpeed: 1
+  pickupSound: {fileID: 8300000, guid: 6021d6c1815445d47beb79dd8ff1eba2, type: 3}
 --- !u!1 &4479260720655200212
 GameObject:
   m_ObjectHideFlags: 0
