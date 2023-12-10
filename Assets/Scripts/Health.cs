@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
     public int maxHealth = 100;
     public int currentHealth;
+
+    public UnityEvent OnDeath;  // Event to be invoked when the object dies
 
     void Start()
     {
@@ -22,8 +25,7 @@ public class Health : MonoBehaviour
 
     void Die()
     {
-        // Handle death logic here
-        // For now, we can just deactivate the GameObject
-        Destroy(gameObject);
+        // Invoke the OnDeath event
+        OnDeath.Invoke();
     }
 }

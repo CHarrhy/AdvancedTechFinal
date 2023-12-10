@@ -15,25 +15,42 @@ public class EnemyAI : MonoBehaviour
     public float attackDistance = 2f; // Adjust this based on your preference
     public float attackCooldown = 2f;
     public float patrolSpeed = 3f; // Speed during patrolling
-    public float chaseSpeed = 5f; // Speed during chasing
+    public float chaseSpeed = 4f; // Speed during chasing
     public Transform[] patrolPoints;
     public EnemyType enemyType;
+    public Animator animator;
 
     private NavMeshAgent navMeshAgent;
     private int currentPatrolIndex = 0;
     private bool isChasing = false;
     private float attackTimer = 0f;
+    private bool isDead = false;
+
 
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
 
         // Start patrolling immediately
         Patrol();
+
+        // Subscribe to the OnDeath event in the Health script
+        Health healthComponent = GetComponent<Health>();
+        if (healthComponent != null)
+        {
+            healthComponent.OnDeath.AddListener(Die);
+        }
     }
 
     void Update()
     {
+        if (isDead)
+        {
+            // Skip normal behavior if dead
+            return;
+        }
+
         // Check if the player is within detection radius
         if (Vector3.Distance(transform.position, player.position) < detectionRadius)
         {
@@ -95,10 +112,15 @@ public class EnemyAI : MonoBehaviour
                 // Calculate the direction to the player
                 Vector3 directionToPlayer = (player.position - transform.position).normalized;
 
+                // Stop the NavMeshAgent
+                navMeshAgent.isStopped = true;
+
                 // Set the destination a bit away from the player in the calculated direction
                 navMeshAgent.SetDestination(player.position - directionToPlayer * 1.5f);
 
                 // Perform melee attack (animation, damage, etc.)
+                animator.SetTrigger("MeleeAttack");
+
                 // You can implement your damage logic here
 
                 // Apply damage to the player
@@ -116,7 +138,22 @@ public class EnemyAI : MonoBehaviour
         {
             // Set chasing speed if not in attack range
             navMeshAgent.speed = chaseSpeed;
+
+            // Resume NavMeshAgent
+            navMeshAgent.isStopped = false;
         }
     }
 
+    public void Die()
+    {
+        isDead = true;
+
+        navMeshAgent.isStopped = true;
+
+        // Trigger death animation
+        animator.SetTrigger("Die");
+
+        // Destroy the enemy about 10 seconds after death
+        Destroy(gameObject, 10f);
+    }
 }

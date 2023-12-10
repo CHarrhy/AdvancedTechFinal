@@ -17,8 +17,9 @@ public class FPSController : MonoBehaviour
     private float verticalRotation = 0f;
 
     // Ammunition and Reloading
-    public int maxAmmo = 30;
-    private int currentAmmo;
+    public int maxAmmoInMagazine = 12;
+    private int currentMagazine;
+    private int spareAmmo;
     public float reloadTime = 1.5f;
     private bool isReloading = false;
 
@@ -34,7 +35,8 @@ public class FPSController : MonoBehaviour
         Cursor.visible = false;
 
         // Initialize ammo
-        currentAmmo = maxAmmo;
+        currentMagazine = maxAmmoInMagazine;
+        spareAmmo = 60; // Set your total ammo here or load it from another source
         UpdateAmmoUI();
 
         characterController = GetComponent<CharacterController>(); // Add this line
@@ -65,7 +67,7 @@ public class FPSController : MonoBehaviour
         // Shooting
         if (Input.GetMouseButtonDown(0) && !isReloading)
         {
-            if (currentAmmo > 0)
+            if (currentMagazine > 0)
             {
                 Shoot();
             }
@@ -76,7 +78,7 @@ public class FPSController : MonoBehaviour
         }
 
         // Reloading
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentAmmo < maxAmmo)
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentMagazine < maxAmmoInMagazine)
         {
             Reload();
         }
@@ -121,26 +123,46 @@ public class FPSController : MonoBehaviour
         GetComponent<AudioSource>().PlayOneShot(shootSound);
 
         // Decrease ammo count
-        currentAmmo--;
+        currentMagazine--;
         UpdateAmmoUI();
     }
 
     void Reload()
     {
-        if (currentAmmo < maxAmmo)
+        if (currentMagazine < maxAmmoInMagazine && spareAmmo > 0 && !isReloading)
         {
+            // Calculate the remaining ammo needed to fill the magazine
+            int ammoNeeded = maxAmmoInMagazine - currentMagazine;
+
+            // Calculate how much ammo to reload (either the remaining ammo or the spare ammo, whichever is smaller)
+            int ammoToReload = Mathf.Min(ammoNeeded, spareAmmo);
+
+            // Subtract the reloaded ammo from the spare ammo
+            spareAmmo -= ammoToReload;
+
             // Play Reload Sound
             GetComponent<AudioSource>().PlayOneShot(reloadSound);
 
+            // Set reloading flag
             isReloading = true;
+
+            // Invoke the FinishReloading function after the reloadTime
             Invoke("FinishReloading", reloadTime);
+
+            // Set the current magazine to the reloaded amount
+            currentMagazine = ammoToReload;
+
+            // Update the UI
+            UpdateAmmoUI();
         }
     }
 
     void FinishReloading()
     {
-        currentAmmo = maxAmmo;
+        // Reset the reloading flag
         isReloading = false;
+
+        // Update the UI
         UpdateAmmoUI();
     }
 
@@ -148,7 +170,7 @@ public class FPSController : MonoBehaviour
     {
         if (ammoText != null)
         {
-            ammoText.text = currentAmmo + " / " + maxAmmo;
+            ammoText.text = currentMagazine + " / " + spareAmmo;
         }
     }
 }

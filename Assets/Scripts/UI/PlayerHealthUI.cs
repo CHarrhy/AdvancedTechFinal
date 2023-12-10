@@ -9,8 +9,17 @@ public class PlayerHealthUI : MonoBehaviour
     void Start()
     {
         // Assign player health script
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null)
+        {
+            playerHealth = playerObject.GetComponent<Health>();
+        }
+        else
+        {
+            Debug.LogError("Player object not found!");
+        }
     }
+
 
     void Update()
     {

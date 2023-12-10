@@ -588,6 +588,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &714028407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -606,7 +609,7 @@ MonoBehaviour:
   attackDistance: 2
   attackCooldown: 2
   patrolSpeed: 3
-  chaseSpeed: 5
+  chaseSpeed: 4
   patrolPoints:
   - {fileID: 1865546524}
   - {fileID: 994677245}
@@ -614,20 +617,12 @@ MonoBehaviour:
   - {fileID: 1523349322}
   - {fileID: 1709582688}
   enemyType: 0
---- !u!114 &714028412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  animator: {fileID: 714028410}
+--- !u!95 &714028410 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9177895909045523136, guid: 39af8e3ba077b5b4a9ce9a84a3156865, type: 3}
+  m_PrefabInstance: {fileID: 8436254154662358944}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 714028400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5348f8c7f0a658347867747dd9707e25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyHealth: {fileID: 714028401}
-  healthBar: {fileID: 0}
 --- !u!1 &743666723
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,6 +673,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &906950044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1373,6 +1371,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 203174583435985065, guid: 0fb46218176e51e48ac500bdaaa27291, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 691868351385262611, guid: 0fb46218176e51e48ac500bdaaa27291, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.222886
@@ -1418,6 +1420,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4253512753594055714, guid: 39af8e3ba077b5b4a9ce9a84a3156865, type: 3}
     - target: {fileID: 7429153738013432052, guid: 0fb46218176e51e48ac500bdaaa27291, type: 3}
+      propertyPath: maxAmmo
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7429153738013432052, guid: 0fb46218176e51e48ac500bdaaa27291, type: 3}
       propertyPath: ammoText
       value: 
       objectReference: {fileID: 978169479}
@@ -1442,6 +1448,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2519082070897512960, guid: 39af8e3ba077b5b4a9ce9a84a3156865, type: 3}
       propertyPath: m_Name
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2519082070897512960, guid: 39af8e3ba077b5b4a9ce9a84a3156865, type: 3}
+      propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 3007915712423823546, guid: 39af8e3ba077b5b4a9ce9a84a3156865, type: 3}
@@ -1564,9 +1574,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2519082070897512960, guid: 39af8e3ba077b5b4a9ce9a84a3156865, type: 3}
       insertIndex: -1
       addedObject: {fileID: 714028407}
-    - targetCorrespondingSourceObject: {fileID: 2519082070897512960, guid: 39af8e3ba077b5b4a9ce9a84a3156865, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 714028412}
   m_SourcePrefab: {fileID: 100100000, guid: 39af8e3ba077b5b4a9ce9a84a3156865, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
