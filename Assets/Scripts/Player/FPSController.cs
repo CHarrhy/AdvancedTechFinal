@@ -1,14 +1,11 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class FPSController : MonoBehaviour
 {
     public float speed = 5f;
     public float mouseSensitivity = 2f;
-    public float jumpForce = 5f; // New variable for jump force
-    public float crouchHeight = 0.5f; // New variable for crouch height
-    public float sprintSpeedMultiplier = 2f; // New variable for sprint speed multiplier
-
     public Transform playerCameraTransform;
     public Transform gunTransform;
     public GameObject muzzleFlashPrefab;
@@ -32,8 +29,15 @@ public class FPSController : MonoBehaviour
     // UI
     public TextMeshProUGUI ammoText;
 
-    private bool isSprinting = false;
+    public EnemyAI enemy;
+
+    // Custom gravity variables
+    public float forceGravity = 20f;
+    private float gravity;
+
+    // Other movement variables
     private bool isCrouching = false;
+    private bool isSprinting = false;
 
     void Start()
     {
@@ -53,48 +57,24 @@ public class FPSController : MonoBehaviour
 
     void Update()
     {
-        // Player Movement
-        float horizontalMovement = Input.GetAxis("Horizontal");
-        float verticalMovement = Input.GetAxis("Vertical");
-
-        Vector3 movement = transform.forward * verticalMovement + transform.right * horizontalMovement;
-
-        // Apply sprinting and crouching
-        float currentSpeed = speed;
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            currentSpeed *= sprintSpeedMultiplier;
-        }
-
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            currentSpeed *= crouchHeight;
-        }
-
-        characterController.Move(movement * currentSpeed * Time.deltaTime);
-
-        // Player Rotation
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
-
-        verticalRotation -= mouseY;
-        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
-
-        playerCameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * mouseX);
-
-        // Jumping
+        // Check if the character is grounded
         if (characterController.isGrounded)
         {
-            if (Input.GetButtonDown("Jump"))
-            {
-                // Adjust the jumpForce value to control the jump height
-                characterController.Move(Vector3.up * jumpForce);
-            }
+            // Apply custom gravity
+            gravity = -forceGravity;
+
+            // Handle other movement logic (e.g., walking, jumping, crouching, sprinting)
+            HandleMovement();
+        }
+        else
+        {
+            // Apply regular gravity when not grounded
+            gravity += Physics.gravity.y * Time.deltaTime;
         }
 
-        // Update Gun Rotation (but keep fixed position)
-        UpdateGunRotation();
+        // Apply vertical movement (including gravity)
+        Vector3 verticalMovement = new Vector3(0, gravity, 0) * Time.deltaTime;
+        characterController.Move(verticalMovement);
 
         // Shooting
         if (Input.GetMouseButtonDown(0) && !isReloading)
@@ -114,10 +94,52 @@ public class FPSController : MonoBehaviour
         {
             Reload();
         }
-
-        Debug.Log(characterController.isGrounded);
     }
 
+    void HandleMovement()
+    {
+        // Player Movement
+        float horizontalMovement = Input.GetAxis("Horizontal");
+        float verticalMovement = Input.GetAxis("Vertical");
+
+        Vector3 movement = transform.forward * verticalMovement + transform.right * horizontalMovement;
+
+        // Placeholder code for crouching (you need to implement your crouch logic)
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            isCrouching = !isCrouching;
+            // Adjust characterController height or other crouch-related logic
+        }
+
+        // Placeholder code for sprinting (you need to implement your sprint logic)
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            isSprinting = true;
+            // Adjust movement speed or other sprint-related logic
+        }
+        else
+        {
+            isSprinting = false;
+        }
+
+        // Adjust movement speed based on crouch and sprint
+        float finalSpeed = isCrouching ? speed / 2f : (isSprinting ? speed * 1.5f : speed);
+
+        characterController.Move(movement * finalSpeed * Time.deltaTime);
+
+        // Player Rotation
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+        verticalRotation -= mouseY;
+        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
+
+        playerCameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+        transform.Rotate(Vector3.up * mouseX);
+
+        // Update Gun Rotation (but keep fixed position)
+        UpdateGunRotation();
+    }
 
     void UpdateGunRotation()
     {
@@ -155,12 +177,21 @@ public class FPSController : MonoBehaviour
         }
 
         // Play Shoot Sound
-        GetComponent<AudioSource>().PlayOneShot(shootSound);
+        AudioSource audioSource = GetComponent<AudioSource>();
+        if (audioSource != null && shootSound != null)
+        {
+            audioSource.PlayOneShot(shootSound);
+        }
+        else
+        {
+            Debug.LogError("AudioSource or shootSound is not set!");
+        }
 
         // Decrease ammo count
         currentMagazine--;
         UpdateAmmoUI();
     }
+
 
     void Reload()
     {
@@ -221,5 +252,15 @@ public class FPSController : MonoBehaviour
     public void Die()
     {
         Destroy(gameObject);
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene("Main");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
