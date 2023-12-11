@@ -26,6 +26,7 @@ public class EnemyAI : MonoBehaviour
     private bool isChasing = false;
     private float attackTimer = 0f;
     private bool isDead = false;
+    private bool isPatrolling;
 
 
     void Start()
@@ -42,6 +43,8 @@ public class EnemyAI : MonoBehaviour
         {
             healthComponent.OnDeath.AddListener(Die);
         }
+
+        isPatrolling = true;
     }
 
     void Update()
@@ -54,6 +57,11 @@ public class EnemyAI : MonoBehaviour
 
         if (playerTransform != null)
         {
+            if(!isChasing)
+            {
+                Patrol();
+            }
+
             // Check if the player is within detection radius
             if (Vector3.Distance(transform.position, player.position) < detectionRadius)
             {
@@ -95,16 +103,25 @@ public class EnemyAI : MonoBehaviour
         // Check if there are patrol points
         if (patrolPoints.Length > 0)
         {
+            // Calculate the distance to the current patrol point
+            float distanceToPatrolPoint = Vector3.Distance(transform.position, patrolPoints[currentPatrolIndex].position);
+
+            // If close to the current patrol point, move to the next one
+            if (distanceToPatrolPoint < 1f)
+            {
+                // Increment patrol index for the next point
+                currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+            }
+
             // Set the destination to the current patrol point
             navMeshAgent.SetDestination(patrolPoints[currentPatrolIndex].position);
 
             // Set patrolling speed
             navMeshAgent.speed = patrolSpeed;
-
-            // Increment patrol index for the next point
-            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
         }
     }
+
+
 
     void MeleeAttack()
     {
