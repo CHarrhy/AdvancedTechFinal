@@ -251,7 +251,8 @@ public class FPSController : MonoBehaviour
 
     public void Die()
     {
-        Time.timeScale = 0f;
+        SceneManager.LoadScene("Death Scene"); // Replace "DeathScene" with the name of your death scene
+        Debug.Log("Die being called");
     }
 
     public void LoadScene(string sceneName)
