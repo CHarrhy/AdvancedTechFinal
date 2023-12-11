@@ -11,6 +11,8 @@ public class DeathScene : MonoBehaviour
     public Button retryButton;
     public Button mainMenuButton;
     public Button quitButton;
+    public AudioSource audioSource; // Reference to the AudioSource component
+
 
     private bool isMouseVisible = false;
 
@@ -30,6 +32,11 @@ public class DeathScene : MonoBehaviour
 
         // Show the mouse cursor when the scene starts
         ToggleMouseVisibility(true);
+
+        if (audioSource != null)
+        {
+            audioSource.Play();
+        }
     }
 
     void Update()
