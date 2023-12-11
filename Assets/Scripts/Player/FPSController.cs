@@ -31,6 +31,10 @@ public class FPSController : MonoBehaviour
 
     public EnemyAI enemy;
 
+    private bool isAiming = false;
+    public float zoomFOV = 40f; // Adjust the field of view for aiming
+    private float originalFOV; // Store the original field of view
+
     // Custom gravity variables
     public float forceGravity = 20f;
     private float gravity;
@@ -53,6 +57,8 @@ public class FPSController : MonoBehaviour
         characterController = GetComponent<CharacterController>(); // Add this line
 
         health = GetComponent<Health>();
+
+        originalFOV = playerCamera.fieldOfView;
     }
 
     void Update()
@@ -93,6 +99,30 @@ public class FPSController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentMagazine < maxAmmoInMagazine)
         {
             Reload();
+        }
+
+        HandleAiming();
+    }
+
+    void HandleAiming()
+    {
+        if (Input.GetMouseButtonDown(1)) // Right mouse button pressed
+        {
+            isAiming = true;
+            // Adjust camera field of view based on aiming state
+            playerCamera.fieldOfView = zoomFOV;
+
+            // Adjust gun position for ADS
+            //gunTransform.localPosition = new Vector3(0f, -0.2f, 0.5f);
+        }
+        else if (Input.GetMouseButtonUp(1)) // Right mouse button released
+        {
+            isAiming = false;
+            // Reset camera field of view
+            playerCamera.fieldOfView = originalFOV;
+
+            // Reset gun position
+           // gunTransform.localPosition = Vector3.zero;
         }
     }
 
