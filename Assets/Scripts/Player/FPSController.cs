@@ -194,7 +194,7 @@ public class FPSController : MonoBehaviour
             Health enemyHealth = hit.transform.GetComponent<Health>();
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(10);
+                enemyHealth.TakeDamage(20);
 
                 // Instantiate Blood Splatter at the hit point
                 GameObject bloodSplatter = Instantiate(bloodSplatterPrefab, hit.point, Quaternion.LookRotation(hit.normal));
