@@ -43,6 +43,9 @@ public class FPSController : MonoBehaviour
     private bool isCrouching = false;
     private bool isSprinting = false;
 
+    private PauseManager pauseManager;
+    public GameObject pauseManagerObject;
+
     void Start()
     {
         playerCamera = playerCameraTransform.GetComponent<Camera>();
@@ -59,10 +62,15 @@ public class FPSController : MonoBehaviour
         health = GetComponent<Health>();
 
         originalFOV = playerCamera.fieldOfView;
+
+        pauseManager = pauseManagerObject.GetComponent<PauseManager>();
     }
 
     void Update()
     {
+        if (pauseManager.isPaused)
+            return;
+
         // Check if the character is grounded
         if (characterController.isGrounded)
         {
