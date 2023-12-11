@@ -26,8 +26,6 @@ public class EnemyAI : MonoBehaviour
     private bool isChasing = false;
     private float attackTimer = 0f;
     private bool isDead = false;
-    private bool isPatrolling;
-
 
     void Start()
     {
@@ -43,8 +41,6 @@ public class EnemyAI : MonoBehaviour
         {
             healthComponent.OnDeath.AddListener(Die);
         }
-
-        isPatrolling = true;
     }
 
     void Update()
