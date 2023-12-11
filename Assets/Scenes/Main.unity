@@ -3105,6 +3105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35084a1e9eedeba4a99c257e55baf034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyManagerObject: {fileID: 1383909806}
 --- !u!65 &1363780022
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3220,6 +3221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 699aa611414668a419aa98e03da60c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllDead: 0
 --- !u!4 &1383909808
 Transform:
   m_ObjectHideFlags: 0
@@ -4304,7 +4306,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 691868351385262611, guid: f347d170b7a64074e81003a2c687c641, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -18.6
+      value: 14.01
       objectReference: {fileID: 0}
     - target: {fileID: 691868351385262611, guid: f347d170b7a64074e81003a2c687c641, type: 3}
       propertyPath: m_LocalRotation.w

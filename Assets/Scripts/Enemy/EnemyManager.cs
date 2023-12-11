@@ -7,6 +7,8 @@ public class EnemyManager : MonoBehaviour
     public int TotalEnemies { get; private set; }
     public int RemainingEnemies { get; private set; }
 
+    public bool AllDead;
+
     void Awake()
     {
         if (Instance == null)
@@ -22,11 +24,7 @@ public class EnemyManager : MonoBehaviour
         // Get the initial count of enemies in the scene
         TotalEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
         RemainingEnemies = TotalEnemies;
-    }
-
-    private void Start()
-    {
-        Debug.Log(TotalEnemies);
+        AllDead = false;
     }
 
     public void EnemyDefeated()
@@ -45,6 +43,6 @@ public class EnemyManager : MonoBehaviour
     void WinGame()
     {
         // Implement win game logic here
-        Debug.Log("YOU WIN!!");
+        AllDead = true;
     }
 }
