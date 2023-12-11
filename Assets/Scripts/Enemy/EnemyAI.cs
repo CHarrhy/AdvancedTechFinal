@@ -158,7 +158,8 @@ public class EnemyAI : MonoBehaviour
         // Trigger death animation
         animator.SetTrigger("Die");
 
-        // Destroy the enemy about 10 seconds after death
         Destroy(gameObject, 10f);
+
+        EnemyManager.Instance.EnemyDefeated();
     }
 }

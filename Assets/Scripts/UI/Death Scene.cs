@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class DeathScene : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class DeathScene : MonoBehaviour
     public Button retryButton;
     public Button mainMenuButton;
     public Button quitButton;
+
+    private bool isMouseVisible = false;
 
     void Start()
     {
@@ -22,13 +25,24 @@ public class DeathScene : MonoBehaviour
         SetOverlayVisibility(true);
         SetDeathMessage("YOU DIED!");
 
-        // You can customize the death message and other properties as needed
+        // Hide the mouse cursor initially
+        Cursor.visible = false;
+
+        // Show the mouse cursor when the scene starts
+        ToggleMouseVisibility(true);
+    }
+
+    void Update()
+    {
+        HandleMouseVisibility();
+
+        // Add other necessary update logic here
     }
 
     void Retry()
     {
-        // Restart the current scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // Restart the main gameplay scene
+        SceneManager.LoadScene("Main"); // Replace "YourMainGameplayScene" with your actual main gameplay scene name
     }
 
     void ReturnToMainMenu()
@@ -54,5 +68,30 @@ public class DeathScene : MonoBehaviour
     void SetDeathMessage(string message)
     {
         deathMessage.text = message;
+    }
+
+    void HandleMouseVisibility()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ToggleMouseVisibility(!isMouseVisible);
+        }
+    }
+
+    void ToggleMouseVisibility(bool isVisible)
+    {
+        Cursor.visible = isVisible;
+        isMouseVisible = isVisible;
+
+        if (isVisible)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            EventSystem.current.SetSelectedGameObject(null);
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            EventSystem.current.SetSelectedGameObject(retryButton.gameObject);
+        }
     }
 }

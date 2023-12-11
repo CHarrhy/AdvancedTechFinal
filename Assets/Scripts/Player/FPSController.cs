@@ -155,8 +155,6 @@ public class FPSController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 100f))
         {
-            Debug.Log("Hit: " + hit.transform.name);
-
             // Instantiate Muzzle Flash at the end of the gun barrel
             Vector3 endOfGunBarrel = gunTransform.position + gunTransform.forward * 1.0f;
             GameObject muzzleFlash = Instantiate(muzzleFlashPrefab, endOfGunBarrel, gunTransform.rotation);
