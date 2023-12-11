@@ -500,7 +500,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7429153738013432052, guid: 0fb46218176e51e48ac500bdaaa27291, type: 3}
+      - m_Target: {fileID: 7429153738013432052, guid: f347d170b7a64074e81003a2c687c641, type: 3}
         m_TargetAssemblyTypeName: FPSController, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 5
@@ -832,7 +832,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7429153738013432052, guid: 0fb46218176e51e48ac500bdaaa27291, type: 3}
+      - m_Target: {fileID: 7429153738013432052, guid: f347d170b7a64074e81003a2c687c641, type: 3}
         m_TargetAssemblyTypeName: FPSController, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1
@@ -841,7 +841,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Main
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1026980676
@@ -1270,6 +1270,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1541159224}
   m_CullTransparentMesh: 1
+--- !u!1 &1801964435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1801964436}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1801964436
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801964435}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 568.81287, y: 271.0814, z: -6.2292004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1279,3 +1310,4 @@ SceneRoots:
   - {fileID: 972086966}
   - {fileID: 163627469}
   - {fileID: 1123080915}
+  - {fileID: 1801964436}

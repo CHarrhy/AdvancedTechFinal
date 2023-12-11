@@ -251,7 +251,7 @@ public class FPSController : MonoBehaviour
 
     public void Die()
     {
-        Destroy(gameObject);
+        Time.timeScale = 0f;
     }
 
     public void LoadScene(string sceneName)

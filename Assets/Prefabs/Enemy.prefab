@@ -2606,6 +2606,7 @@ MonoBehaviour:
   - {fileID: 0}
   enemyType: 0
   animator: {fileID: 9177895909045523136}
+  playerTransform: {fileID: 691868351385262611, guid: f347d170b7a64074e81003a2c687c641, type: 3}
 --- !u!1 &2896258296982152972
 GameObject:
   m_ObjectHideFlags: 0

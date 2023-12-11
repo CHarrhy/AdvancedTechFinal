@@ -19,6 +19,7 @@ public class EnemyAI : MonoBehaviour
     public Transform[] patrolPoints;
     public EnemyType enemyType;
     public Animator animator;
+    public Transform playerTransform;
 
     private NavMeshAgent navMeshAgent;
     private int currentPatrolIndex = 0;
@@ -51,32 +52,36 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        // Check if the player is within detection radius
-        if (Vector3.Distance(transform.position, player.position) < detectionRadius)
+        if (playerTransform != null)
         {
-            isChasing = true;
-
-            // Set the destination to the player's position
-            navMeshAgent.SetDestination(player.position);
-
-            // Attack logic based on enemy type
-            if (enemyType == EnemyType.Melee)
+            // Check if the player is within detection radius
+            if (Vector3.Distance(transform.position, player.position) < detectionRadius)
             {
-                MeleeAttack();
+                isChasing = true;
+
+                // Set the destination to the player's position
+                navMeshAgent.SetDestination(player.position);
+
+                // Attack logic based on enemy type
+                if (enemyType == EnemyType.Melee)
+                {
+                    MeleeAttack();
+                }
+                else if (enemyType == EnemyType.Ranged)
+                {
+                    // Add ranged attack logic here
+                }
             }
-            else if (enemyType == EnemyType.Ranged)
+            else if (isChasing && Vector3.Distance(transform.position, player.position) > chaseRadius)
             {
-                // Add ranged attack logic here
+                // Stop chasing if player is out of chase radius
+                isChasing = false;
+
+                // Resume patrolling
+                Patrol();
             }
         }
-        else if (isChasing && Vector3.Distance(transform.position, player.position) > chaseRadius)
-        {
-            // Stop chasing if player is out of chase radius
-            isChasing = false;
-
-            // Resume patrolling
-            Patrol();
-        }
+           
 
         // Update attack cooldown
         if (attackTimer > 0)
